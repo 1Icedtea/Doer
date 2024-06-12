@@ -5,15 +5,16 @@ use function Livewire\Volt\{state, with};
 state(['task']);
 
 with([
-    'todos'=>fn()=>\App\Models\Todo::all()
+    // 'todos'=> fn() => \App\Models\Todo::all()
+    'todos' => fn() => auth() -> user() -> todos
 ]);
 
 $add = function() {
-    \App\Models\Todo::create([
-        'user_id' => auth()->id(),
+    auth() -> user() -> todos() -> create([
         'task' => $this->task
     ]);
-    // $this->task = '';
+
+    $this->task = '';
 };
 
 ?>
