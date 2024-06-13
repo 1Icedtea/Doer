@@ -1,6 +1,7 @@
 <?php
 
 use function Livewire\Volt\{state, with};
+use App\Mail\TodoCreated;
 
 state(['task']);
 
@@ -10,10 +11,13 @@ with([
 ]);
 
 $add = function() {
-    auth() -> user() -> todos() -> create([
+    $todo = auth() -> user() -> todos() -> create([
         'task' => $this->task
     ]);
 
+    Mail::to(auth()->user())
+        ->queue(new TodoCreated($todo));
+    
     $this->task = '';
 };
 
