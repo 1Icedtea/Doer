@@ -17,6 +17,8 @@ $add = function() {
     $this->task = '';
 };
 
+$delete = fn(\App\Models\Todo $todo) => $todo->delete();
+
 ?>
 
 <div>
@@ -30,7 +32,10 @@ $add = function() {
     <div>   
         <div>
             @foreach ($todos as $todo)
-                {{ $todo->task  }}
+                <div>
+                    {{ $todo->task  }}
+                    <button wire:click='delete({{ $todo->id }})' >x</button>
+                </div>
             @endforeach
         </div>
     </div>
